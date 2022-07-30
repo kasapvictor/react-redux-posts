@@ -1,0 +1,20 @@
+.button {
+  @include py($size: 3);
+  @include px($size: 5);
+  border: 1px solid $buttonBorderColor;
+  border-radius: $buttonBorderRadius;
+  background-color: $buttonBackgroundColor;
+  color: $buttonColorText;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $buttonBackgroundColorHover;
+    color: $buttonColorTextHover;
+  }
+
+  &:active {
+    background-color: $buttonBackgroundColorActive;
+    color: $buttonColorTextActive;
+    border-color: $buttonBorderColorActive;
+  }
+}

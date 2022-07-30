@@ -33,35 +33,39 @@ export const AddPostForm = () => {
   return (
     <div className="postAdd">
       <div className="postAdd__header">
-        <h3 className="h3">Add new post</h3>
+        <h3 className="h3">Add a new post</h3>
       </div>
       <div className="postAdd__body">
         <form className="form postAdd__form" ref={formRef}>
           <div className="form__body">
-            <label htmlFor="title" className="form__label">
-              <span className="form__label-name">Title:</span>
-              <input
-                className="form__field"
-                type="text"
-                name="title"
-                value={title}
-                id="title"
-                onChange={handleTitle}
-                ref={titleRef}
-              />
-            </label>
+            <div className="form__row">
+              <label htmlFor="title" className="form__label">
+                <span className="form__label-name">Title:</span>
+                <input
+                  className="form__field"
+                  type="text"
+                  name="title"
+                  value={title}
+                  id="title"
+                  onChange={handleTitle}
+                  ref={titleRef}
+                />
+              </label>
+            </div>
 
-            <label htmlFor="content" className="form__label">
-              <span className="form__label-name">Content:</span>
-              <textarea
-                className="form__field"
-                name="content"
-                value={content}
-                id="content"
-                onChange={handleContent}
-                ref={contentRef}
-              />
-            </label>
+            <div className="form__row">
+              <label htmlFor="content" className="form__label">
+                <span className="form__label-name">Content:</span>
+                <textarea
+                  className="form__field"
+                  name="content"
+                  value={content}
+                  id="content"
+                  onChange={handleContent}
+                  ref={contentRef}
+                />
+              </label>
+            </div>
           </div>
 
           <div className="form__buttons">

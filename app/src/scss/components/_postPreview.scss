@@ -1,0 +1,21 @@
+.postPreview {
+  @include mb($size: 4);
+  @include p($size: 4);
+  border: 1px solid $postPreviewBorderColor;
+  border-radius: $postPreviewBorderRadius;
+}
+
+.postPreview__title {
+  font-size: $postPreviewTitle;
+  font-weight: 500;
+}
+
+.postPreview__excerpt {
+  font-size: $postPreviewExcerptFontSize;
+  font-weight: 100;
+}
+
+.postPreview__id {
+  opacity: .5;
+  font-weight: 100;
+}
