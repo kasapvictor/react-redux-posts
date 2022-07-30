@@ -14,12 +14,12 @@ export const App = () => (
       <Navigation />
     </header>
 
-    <div className="main">
+    <main className="main">
       <Routes>
         <Route path={routes.home} element={<Home />} />
         <Route path={routes.post} element={<Post />} />
         <Route path={routes.notFound} element={<NotFound />} />
       </Routes>
-    </div>
+    </main>
   </div>
 );
