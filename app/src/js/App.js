@@ -1,33 +1,25 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
-const NotFound = () => <>Not Found</>;
+import { routes } from './routes';
 
-function Home() {
-  return <h1 className="h1">Home</h1>;
-}
-
-function About() {
-  return <h1 className="h1">About</h1>;
-}
+import { Navigation } from './Navigation';
+import { NotFound } from './NotFound';
+import { Home } from './Home';
+import { Post } from './Post';
 
 export const App = () => (
-  <div className="App">
-    <h1>Welcome to React Router!</h1>
+  <div className="app">
+    <header className="header">
+      <Navigation />
+    </header>
 
-    <ul>
-      <li>
-        <Link to="/">[Home]</Link>
-      </li>
-      <li>
-        <Link to="/about">[About]</Link>
-      </li>
-    </ul>
-
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="about" element={<About />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <div className="main">
+      <Routes>
+        <Route path={routes.home} element={<Home />} />
+        <Route path={routes.post} element={<Post />} />
+        <Route path={routes.notFound} element={<NotFound />} />
+      </Routes>
+    </div>
   </div>
 );
