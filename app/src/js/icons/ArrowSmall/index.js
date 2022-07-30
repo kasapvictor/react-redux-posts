@@ -1,0 +1,1 @@
+export { ArrowSmall } from './ArrowSmall';

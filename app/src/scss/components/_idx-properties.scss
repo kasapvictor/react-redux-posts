@@ -1,0 +1,9 @@
+.idx_container {
+  .idx_properties {
+    @include columns(49%);
+
+    @include media-mobile-x {
+      @include columns(100%);
+    }
+  }
+}

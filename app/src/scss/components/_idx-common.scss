@@ -1,0 +1,31 @@
+.idx--left-auto {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.idx-right-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.idx__text--small {
+  font-size: 12px;
+}
+
+.idx__text--mute {
+  color: lighten($color1, 50);
+}
+
+.idx--hidden {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.idx--pb-5 {
+  padding-bottom: 5px;
+}

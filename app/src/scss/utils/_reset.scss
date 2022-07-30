@@ -1,0 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
+input:-webkit-autofill {
+  //The following works as the text color for the autofill
+  -webkit-text-fill-color: $color1;
+  //The following works as a background for the autofill
+  -webkit-box-shadow: 0 0 0px 1000px $color2 inset;
+}

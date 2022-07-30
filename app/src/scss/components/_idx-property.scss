@@ -1,0 +1,13 @@
+.idx_container {
+  .properties__item {
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: $itemBorderRadius;
+    box-shadow: 0 74px 174px 0 rgb($color1, 0.3);
+    overflow-x: hidden;
+
+    @include media-tablet-m {
+      margin-bottom: 15px;
+    }
+  }
+}

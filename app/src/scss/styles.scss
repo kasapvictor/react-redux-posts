@@ -1,0 +1,19 @@
+/* UTILS */
+@import 'utils/vars';
+@import 'utils/reset';
+@import 'utils/mixins';
+@import 'utils/placeholders';
+
+@import 'theme/remax';
+
+@import 'layouts/body';
+@import 'layouts/section';
+@import 'layouts/container';
+
+@import 'components/idx-properties';
+@import 'components/idx-property';
+@import 'components/idx-product';
+@import 'components/idx-modal';
+@import 'components/idx-buttons';
+@import 'components/idx-common';
+@import 'components/idx-form';

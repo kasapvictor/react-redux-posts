@@ -1,0 +1,62 @@
+.idx__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 30px;
+  border-radius: $buttonBorderRadius;
+  outline: none;
+  color: $color2;
+  border: 1px solid $buttonBorderColor;
+  background-color: $buttonBackground;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+  z-index: 10;
+
+  &:hover {
+    background-color: $color1;
+    border: 1px solid $buttonBorderColor;
+  }
+
+  @include media-mobile-x {
+    padding: 15px 20px;
+  }
+}
+
+.idx__button--active {
+  background-color: $buttonActiveBackground;
+  border-color: transparent;
+  color: $color2;
+
+  &:hover {
+    background-color: $color1;
+    color: $color2;
+    border: 1px solid $color1;
+  }
+}
+
+.idx__button-text {
+  font-weight: 600;
+}
+
+.idx__button-icon {
+  padding-top: 4px;
+  padding-left: 10px;
+}
+
+.idx__button-square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.idx__button-square-icon {
+  padding: 0;
+}
+
+.idx__button-square--reverse {
+  transform: rotate(-180deg);
+}

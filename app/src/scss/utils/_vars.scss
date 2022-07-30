@@ -1,0 +1,36 @@
+$color1: #232323;
+$color2: #ffffff;
+$color3: #0061df;
+$color4: lighten($color3, 50);
+$color5: lighten($color3, 40);
+$color6: #4ed192;
+$color7: #df0000;
+
+$colorText: $color1;
+$colorTextActive: $color3;
+$colorActiveTitle: $color3;
+$colorButtonClose: $color3;
+
+$backgroundButtonClose: lighten($color3, 50);
+
+$borderButtonColor: $color5;
+
+$selectOptionsBorderRadius: 4px;
+$modalContainerBorderRadius: 4px;
+$buttonBorderRadius: 4px;
+$fieldBorderRadius: 6px;
+$cardBorderRadius: 6px;
+$itemBorderRadius: 6px;
+$specBorderRadius: 6px;
+
+$desktop-x: 1920px;
+$desktop-m: 1440px;
+$desktop-s: 1280px;
+
+$tablet-x: 1024px;
+$tablet-m: 991px;
+$tablet-s: 767px;
+
+$mobile-x: 479px;
+$mobile-m: 375px;
+$mobile-s: 320px;
