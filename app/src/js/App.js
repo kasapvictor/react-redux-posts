@@ -1,43 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 
-import { added, selectors } from './store';
-import { Properties } from './components';
-import { buildUrl } from './utils';
-import { fetchAll } from './api';
+const NotFound = () => <>Not Found</>;
 
-/*
-"deadmou59@gmail.com" => "LfHVkw962-7z6fYJXQr3g8", // test
-"barbara@barbarabenotto.com" => "s9cGvHfj02HJz5yTMg9Aw4",
-"chris@soldbyshep.com" => "xjRaXFY@U@IX5njYqmEtnD",
- */
-const BASE_URL = 'https://services.wowmi.us/api/web/api/v1/idx/articles';
+function Home() {
+  return <h1 className="h1">Home</h1>;
+}
 
-export const App = ({ email, status, sendTo }) => {
-  const dispatch = useDispatch();
-  const url = buildUrl(BASE_URL, email, status);
-  const [isFetching, setIsFetching] = useState(false);
-  const sendToEmail = sendTo ?? email;
+function About() {
+  return <h1 className="h1">About</h1>;
+}
 
-  useEffect(() => {
-    fetchAll(url).then((data) => {
-      if (data.length === 0) {
-        // eslint-disable-next-line no-console
-        console.warn(`NO DATA: ${status} objects for ${email}`);
-      }
+export const App = () => (
+  <div className="App">
+    <h1>Welcome to React Router!</h1>
 
-      if (data.length > 0) {
-        const formattedData = Object.entries(data[0].json_data).map(([itemId, item], id) => ({
-          id,
-          itemId,
-          ...item,
-        }));
+    <ul>
+      <li>
+        <Link to="/">[Home]</Link>
+      </li>
+      <li>
+        <Link to="/about">[About]</Link>
+      </li>
+    </ul>
 
-        setIsFetching(true);
-        dispatch(added(formattedData));
-      }
-    });
-  }, []);
-
-  return <>{isFetching && <Properties selectors={selectors} status={status} sendTo={sendToEmail} />}</>;
-};
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="about" element={<About />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </div>
+);

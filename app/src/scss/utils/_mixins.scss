@@ -75,6 +75,96 @@
   }
 }
 
-@mixin py($size) {
-  padding-bottom: calc(4px * $size);
+/* PADDINGS */
+@mixin p($factor: $factor, $size) {
+  padding: calc($factor * $size);
+}
+
+@mixin px($factor: $factor, $size) {
+  padding-left: calc($factor * $size);
+  padding-right: calc($factor * $size);
+}
+
+@mixin py($factor: $factor, $size) {
+  padding-top: calc($factor * $size);
+  padding-bottom: calc($factor * $size);
+}
+
+@mixin pl($factor: $factor, $size) {
+  padding-left: calc($factor * $size);
+}
+
+@mixin pr($factor: $factor, $size) {
+  padding-right: calc($factor * $size);
+}
+
+@mixin pt($factor: $factor, $size) {
+  padding-bottom: calc($factor * $size);
+}
+
+@mixin pb($factor: $factor, $size) {
+  padding-bottom: calc($factor * $size);
+}
+
+/* MARGINS */
+@mixin m($factor: $factor, $size) {
+  margin: calc($factor * $size);
+}
+
+@mixin mx($factor: $factor, $size) {
+  margin-left: calc($factor * $size);
+  margin-right: calc($factor * $size);
+}
+
+@mixin my($factor: $factor, $size) {
+  margin-top: calc($factor * $size);
+  margin-bottom: calc($factor * $size);
+}
+
+@mixin ml($factor: $factor, $size) {
+  margin-left: calc($factor * $size);
+}
+
+@mixin mr($factor: $factor, $size) {
+  margin-right: calc($factor * $size);
+}
+
+@mixin mt($factor: $factor, $size) {
+  margin-bottom: calc($factor * $size);
+}
+
+@mixin mb($factor: $factor, $size) {
+  margin-bottom: calc($factor * $size);
+}
+
+@mixin scroll(
+  $widthScrollbar: 7px,
+  $scrollbarTrackColor: #f1f1f1,
+  $scrollbarTrackPieceColor: #f1f1f1,
+  $scrollbarThumbColor: #999999,
+  $scrollbarThumbColorHover: #888888
+) {
+  /* width */
+  &::-webkit-scrollbar {
+    width: $widthScrollbar;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: $scrollbarTrackColor;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background: $scrollbarTrackPieceColor;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbarThumbColor;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $scrollbarThumbColorHover;
+  }
 }
