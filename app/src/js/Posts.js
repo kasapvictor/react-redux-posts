@@ -23,7 +23,7 @@ export const Posts = () => {
   console.log(postsList);
 
   return (
-    <section className="posts">
+    <section className="postsPreview">
       <RenderPosts posts={postsList} />
     </section>
   );
