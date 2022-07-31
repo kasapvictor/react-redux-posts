@@ -8,6 +8,7 @@ import { NotFound } from './NotFound';
 import { About } from './About';
 import { Home } from './Home';
 import { Post } from './Post';
+import { EditPost } from './EditPost';
 
 export const App = () => (
   <div className="app">
@@ -19,7 +20,8 @@ export const App = () => (
       <Routes>
         <Route index element={<Home />} />
         <Route path={routes.about} element={<About />} />
-        <Route path={routes.post} element={<Post />} />
+        <Route exact path={routes.post} element={<Post />} />
+        <Route exact path={routes.postEdit} element={<EditPost />} />
         <Route path={routes.notFound} element={<NotFound />} />
       </Routes>
     </main>

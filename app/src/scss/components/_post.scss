@@ -1,0 +1,9 @@
+.postBody {
+  @include py($size: 10);
+}
+
+.postFooter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

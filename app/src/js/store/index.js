@@ -1,2 +1,2 @@
 export { store } from './store';
-export { postAdd, postRemove } from './postsSlice';
+export { postAdd, postRemove, postUpdate } from './postsSlice';

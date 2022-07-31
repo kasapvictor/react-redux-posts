@@ -99,7 +99,7 @@
 }
 
 @mixin pt($factor: $factor, $size) {
-  padding-bottom: calc($factor * $size);
+  padding-top: calc($factor * $size);
 }
 
 @mixin pb($factor: $factor, $size) {

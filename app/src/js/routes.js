@@ -1,6 +1,7 @@
 export const routes = {
   home: '/',
-  post: 'post',
+  post: 'posts/:postId',
+  postEdit: 'edit/:postId',
   about: 'about',
   notFound: '*',
 };

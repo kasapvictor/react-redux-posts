@@ -1,6 +1,7 @@
 .button {
+  display: inline-block;
   @include py($size: 3);
-  @include px($size: 5);
+  @include px($size: 10);
   border: 1px solid $buttonBorderColor;
   border-radius: $buttonBorderRadius;
   background-color: $buttonBackgroundColor;

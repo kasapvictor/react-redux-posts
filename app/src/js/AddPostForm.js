@@ -21,9 +21,11 @@ export const AddPostForm = () => {
     setContent(contentRef.current.value);
   };
 
+  const id = nanoid();
+
   const handleAddPost = () => {
     if (title !== '' && content !== '') {
-      dispatch(postAdd({ id: nanoid(), title, content }));
+      dispatch(postAdd({ id, title, content }));
       setTitle('');
       setContent('');
       formRef.current.reset();

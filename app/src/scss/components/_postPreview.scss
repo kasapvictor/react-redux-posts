@@ -1,3 +1,7 @@
+.postsPreview {
+  @include pb($size: 10);
+}
+
 .postPreview {
   @include mb($size: 4);
   @include p($size: 4);
@@ -10,9 +14,16 @@
   font-weight: 500;
 }
 
+.postPreview__body {
+  @include py($size: 4);
+}
+
 .postPreview__excerpt {
   font-size: $postPreviewExcerptFontSize;
   font-weight: 100;
+}
+
+.postPreview__footer {
 }
 
 .postPreview__id {

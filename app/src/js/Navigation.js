@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 import { routes } from './routes';
 
-console.log(NavLink);
-
 export const Navigation = () => (
   <div className="container">
     <nav className="navigation">
