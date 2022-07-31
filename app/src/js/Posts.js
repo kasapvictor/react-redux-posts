@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { routes } from './routes';
 
 const RenderPosts = ({ posts }) =>
   posts.map((post) => (
@@ -14,7 +15,7 @@ const RenderPosts = ({ posts }) =>
         <div className="postPreview__excerpt">{post.content.substring(0, 100)}...</div>
       </div>
       <div className="postPreview__footer">
-        <Link to={`/posts/${post.id}`} className="button">
+        <Link to={routes.post(post.id)} className="button">
           Read post
         </Link>
       </div>

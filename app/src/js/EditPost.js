@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { postUpdate } from './store';
+import { routes } from './routes';
 
 export const EditPost = () => {
   const params = useParams();
@@ -30,8 +31,7 @@ export const EditPost = () => {
       dispatch(postUpdate({ id: postId, title, content }));
       setTitle('');
       setContent('');
-      formRef.current.reset();
-      navigate(`/posts/${postId}`);
+      navigate(routes.post(postId));
     }
   };
 

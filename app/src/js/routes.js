@@ -1,7 +1,7 @@
 export const routes = {
   home: '/',
-  post: 'posts/:postId',
-  postEdit: 'edit/:postId',
-  about: 'about',
   notFound: '*',
+  about: 'about',
+  post: (id = null) => ['/posts', `${id ?? ':postId'}`].join('/'),
+  postEdit: (id = null) => ['/edit', `${id ?? ':postId'}`].join('/'),
 };

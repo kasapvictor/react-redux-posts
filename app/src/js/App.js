@@ -20,8 +20,8 @@ export const App = () => (
       <Routes>
         <Route index element={<Home />} />
         <Route path={routes.about} element={<About />} />
-        <Route exact path={routes.post} element={<Post />} />
-        <Route exact path={routes.postEdit} element={<EditPost />} />
+        <Route exact path={routes.post()} element={<Post />} />
+        <Route exact path={routes.postEdit()} element={<EditPost />} />
         <Route path={routes.notFound} element={<NotFound />} />
       </Routes>
     </main>

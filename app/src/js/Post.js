@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+
 import { routes } from './routes';
 
 export const Post = () => {
@@ -21,7 +22,7 @@ export const Post = () => {
               <div className="postContent">{postById.content}</div>
             </div>
             <div className="postFooter">
-              <Link to={`/edit/${postById.id}`} className="button">
+              <Link to={routes.postEdit(postById.id)} className="button">
                 Edit post
               </Link>
               <Link to={routes.home} className="link">
