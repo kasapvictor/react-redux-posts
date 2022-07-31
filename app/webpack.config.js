@@ -1,10 +1,24 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const mode = process.env.NODE_ENV;
 
+const plugins = [
+  new MiniCssExtractPlugin({
+    filename: 'css/[name].css',
+  }),
+];
+
+// HMR FOR REACT
+if (mode !== 'production') {
+  plugins.push(new ReactRefreshWebpackPlugin());
+}
+
 module.exports = {
   mode,
+
+  target: mode === 'production' ? 'browserslist' : 'web',
 
   devtool: 'source-map',
 
@@ -122,9 +136,5 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-    }),
-  ],
+  plugins,
 };

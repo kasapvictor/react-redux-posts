@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@mswjs/data": "^0.10.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "axios": "^0.26.1",
     "classnames": "^2.3.1",
     "date-fns": "^2.29.1",

@@ -1,5 +1,5 @@
 install:
-	npm install
+	npm ci || npm install
 
 rm-rf-css:
 	rm -rf public/css
