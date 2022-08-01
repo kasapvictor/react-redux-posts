@@ -31,10 +31,11 @@ const RenderPosts = ({ posts }) =>
 
 export const Posts = () => {
   const postsList = useSelector((state) => state.posts);
+  const postsOrderedByDate = postsList.slice().sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <section className="postsPreview">
-      <RenderPosts posts={postsList} />
+      <RenderPosts posts={postsOrderedByDate} />
     </section>
   );
 };
