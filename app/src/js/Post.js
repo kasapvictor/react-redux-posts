@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { routes } from './routes';
+import { PostAuthor } from './PostAuthor';
 
 export const Post = () => {
   const params = useParams();
@@ -16,7 +17,10 @@ export const Post = () => {
           <article>
             <div className="postHeader">
               <h1 className="h1">{postById.title}</h1>
-              <span className="small postPreview__id"> Post ID: {postById.id}</span>
+              <div className="postPreview__notice">
+                <span className="small postPreview__id"> Post ID: {postById.id}</span>
+                <span className="small postPreview__id"> Author: {<PostAuthor id={postById.userId} />} </span>
+              </div>
             </div>
             <div className="postBody">
               <div className="postContent">{postById.content}</div>

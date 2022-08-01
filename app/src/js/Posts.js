@@ -3,12 +3,17 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from './routes';
 
+import { PostAuthor } from './PostAuthor';
+
 const RenderPosts = ({ posts }) =>
   posts.map((post) => (
     <article key={post.id} className="postPreview">
       <div className="postPreview__header">
         <h3 className="h3 postPreview__title">{post.title}</h3>
-        <span className="small postPreview__id"> Post ID: {post.id}</span>
+        <div className="postPreview__notice">
+          <span className="small postPreview__id"> Post ID: {post.id}</span>
+          <span className="small postPreview__id"> Author: {<PostAuthor id={post.userId} />} </span>
+        </div>
       </div>
 
       <div className="postPreview__body">

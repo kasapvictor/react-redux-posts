@@ -18,4 +18,11 @@
     color: $buttonColorTextActive;
     border-color: $buttonBorderColorActive;
   }
+
+  &:disabled {
+    background-color: $buttonBackgroundColorDisabled;
+    color: $buttonColorTextActive;
+    border-color: $buttonBorderColorDisabled;
+    cursor: not-allowed;
+  }
 }
