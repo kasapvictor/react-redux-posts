@@ -31,9 +31,10 @@ export const AddPostForm = () => {
 
   const handleAddPost = () => {
     const id = nanoid();
+    const date = new Date().toISOString();
 
     if (!!title && !!content) {
-      dispatch(postAdd({ id, title, content, userId }));
+      dispatch(postAdd({ id, title, content, userId, date }));
       setTitle('');
       setContent('');
       formRef.current.reset();
