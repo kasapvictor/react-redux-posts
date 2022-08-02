@@ -5,6 +5,7 @@ import { routes } from './routes';
 
 import { PostAuthor } from './PostAuthor';
 import { TimeAgo } from './TimeAgo';
+import { ReactionButtons } from './ReactionButtons';
 
 const RenderPosts = ({ posts }) =>
   posts.map((post) => (
@@ -26,6 +27,8 @@ const RenderPosts = ({ posts }) =>
           Read post
         </Link>
       </div>
+
+      <ReactionButtons post={post} />
     </article>
   ));
 

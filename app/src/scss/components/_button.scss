@@ -26,3 +26,22 @@
     cursor: not-allowed;
   }
 }
+
+.buttonReaction {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 30px;
+  border: 1px solid $buttonReactionBorderColor;
+
+  &:hover {
+    border-color: $buttonReactionBorderColorHover;
+  }
+}
+
+.buttonReaction__icon {
+  margin-right: 10px;
+}
+
+.buttonReaction__count {
+
+}

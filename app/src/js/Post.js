@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { routes } from './routes';
 import { PostAuthor } from './PostAuthor';
 import { TimeAgo } from './TimeAgo';
+import { ReactionButtons } from './ReactionButtons';
 
 export const Post = () => {
   const params = useParams();
@@ -26,6 +27,8 @@ export const Post = () => {
             </div>
             <div className="postBody">
               <div className="postContent">{postById.content}</div>
+
+              <ReactionButtons post={postById} />
             </div>
             <div className="postFooter">
               <Link to={routes.postEdit(postById.id)} className="button">
