@@ -31,13 +31,40 @@ const initialState = [
   },
 ];
 
+const reactionsInitialState = {
+  thumbsUp: 0,
+  hooray: 0,
+  heart: 0,
+  rocket: 0,
+  eyes: 0,
+};
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    postAdd: (state, action) => {
-      const { payload } = action;
-      return [...state, payload];
+    postAdd: {
+      reducer(state, action) {
+        return [...state, action.payload];
+      },
+      prepare({ title, content, userId, id, date }) {
+        return {
+          payload: {
+            id,
+            date,
+            title,
+            content,
+            userId,
+            reactions: {
+              thumbsUp: 0,
+              hooray: 0,
+              heart: 0,
+              rocket: 0,
+              eyes: 0,
+            },
+          },
+        };
+      },
     },
     postRemove: (state, action) => {
       const { payload } = action;

@@ -4,7 +4,7 @@ import { nanoid } from '@reduxjs/toolkit';
 
 import { postAdd } from './store';
 
-export const AddPostForm = () => {
+export const PostAddForm = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -13,20 +13,17 @@ export const AddPostForm = () => {
   const [userId, setUserId] = useState(null);
 
   const formRef = useRef(null);
-  const titleRef = useRef(null);
-  const contentRef = useRef(null);
-  const authorRef = useRef(null);
 
-  const handleTitle = () => {
-    setTitle(titleRef.current.value);
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
   };
 
-  const handleContent = () => {
-    setContent(contentRef.current.value);
+  const handleContent = (e) => {
+    setContent(e.target.value);
   };
 
-  const handleAuthor = () => {
-    setUserId(authorRef.current.value);
+  const handleAuthor = (e) => {
+    setUserId(e.target.value);
   };
 
   const handleAddPost = () => {
@@ -37,6 +34,7 @@ export const AddPostForm = () => {
       dispatch(postAdd({ id, title, content, userId, date }));
       setTitle('');
       setContent('');
+      setUserId(null);
       formRef.current.reset();
     }
   };
@@ -62,7 +60,6 @@ export const AddPostForm = () => {
                   id="title"
                   placeholder="Some title ..."
                   onChange={handleTitle}
-                  ref={titleRef}
                 />
               </label>
             </div>
@@ -70,13 +67,7 @@ export const AddPostForm = () => {
             <div className="form__row">
               <label htmlFor="author" className="form__label">
                 <span className="form__label-name">Author:</span>
-                <select
-                  className="form__field form__select"
-                  name="author"
-                  id="author"
-                  onChange={handleAuthor}
-                  ref={authorRef}
-                >
+                <select className="form__field form__select" name="author" id="author" onChange={handleAuthor}>
                   {users.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name}
@@ -95,7 +86,6 @@ export const AddPostForm = () => {
                   value={content}
                   id="content"
                   onChange={handleContent}
-                  ref={contentRef}
                 />
               </label>
             </div>

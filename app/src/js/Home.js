@@ -4,7 +4,7 @@ import React from 'react';
 // https://jsonplaceholder.typicode.com/posts
 
 import { Posts } from './Posts';
-import { AddPostForm } from './AddPostForm';
+import { PostAddForm } from './PostAddForm';
 
 export const Home = () => (
   <div className="container">
@@ -12,7 +12,7 @@ export const Home = () => (
       <h1 className="h1">Posts list</h1>
     </div>
 
-    <AddPostForm />
+    <PostAddForm />
 
     <Posts />
   </div>
