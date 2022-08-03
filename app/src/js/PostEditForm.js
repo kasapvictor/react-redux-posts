@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -14,26 +14,26 @@ export const PostEditForm = () => {
   const [title, setTitle] = useState(postById.title);
   const [content, setContent] = useState(postById.content);
 
-  const formRef = useRef(null);
-  const titleRef = useRef(null);
-  const contentRef = useRef(null);
+  const titleRef = useRef();
 
-  const handleTitle = () => {
-    setTitle(titleRef.current.value);
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
   };
 
-  const handleContent = () => {
-    setContent(contentRef.current.value);
+  const handleContent = (e) => {
+    setContent(e.target.value);
   };
 
   const handleEditPost = () => {
     if (title !== '' && content !== '') {
       dispatch(postUpdate({ id: postId, title, content }));
-      setTitle('');
-      setContent('');
       navigate(routes.post(postId));
     }
   };
+
+  useEffect(() => {
+    titleRef.current.focus();
+  }, [titleRef]);
 
   return (
     <section className="section">
@@ -44,19 +44,19 @@ export const PostEditForm = () => {
             <span className="small postPreview__id"> Post ID: {postById.id}</span>
           </div>
           <div className="postAdd__body">
-            <form className="form postAdd__form" ref={formRef}>
+            <form className="form postAdd__form">
               <div className="form__body">
                 <div className="form__row">
                   <label htmlFor="title" className="form__label">
                     <span className="form__label-name">Title:</span>
                     <input
                       className="form__field"
+                      id="title"
                       type="text"
                       name="title"
                       value={title}
-                      id="title"
-                      onChange={handleTitle}
                       ref={titleRef}
+                      onChange={handleTitle}
                     />
                   </label>
                 </div>
@@ -65,12 +65,11 @@ export const PostEditForm = () => {
                   <label htmlFor="content" className="form__label">
                     <span className="form__label-name">Content:</span>
                     <textarea
-                      className="form__field"
-                      name="content"
-                      value={content}
-                      id="content"
                       onChange={handleContent}
-                      ref={contentRef}
+                      className="form__field"
+                      value={content}
+                      name="content"
+                      id="content"
                     />
                   </label>
                 </div>
