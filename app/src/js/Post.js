@@ -3,14 +3,15 @@ import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { routes } from './routes';
-import { PostAuthor } from './PostAuthor';
 import { TimeAgo } from './TimeAgo';
+import { selectPostById } from './store';
+import { PostAuthor } from './PostAuthor';
 import { ReactionButtons } from './ReactionButtons';
 
 export const Post = () => {
   const params = useParams();
   const { postId } = params;
-  const postById = useSelector((state) => state.posts.find((post) => post.id === postId));
+  const postById = useSelector((state) => selectPostById(state, postId));
 
   return (
     <section className="post">

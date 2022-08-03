@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { postUpdate } from './store';
 import { routes } from './routes';
+import { postUpdate, selectPostById } from './store';
 
-export const EditPost = () => {
+export const PostEditForm = () => {
   const params = useParams();
   const { postId } = params;
-  const postById = useSelector((state) => state.posts.find((post) => post.id === postId));
+  const postById = useSelector((state) => selectPostById(state, postId));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [title, setTitle] = useState(postById.title);

@@ -7,6 +7,8 @@ import { PostAuthor } from './PostAuthor';
 import { TimeAgo } from './TimeAgo';
 import { ReactionButtons } from './ReactionButtons';
 
+import { selectAllPosts } from './store';
+
 const RenderPosts = ({ posts }) =>
   posts.map((post) => (
     <article key={post.id} className="postPreview">
@@ -33,7 +35,7 @@ const RenderPosts = ({ posts }) =>
   ));
 
 export const Posts = () => {
-  const postsList = useSelector((state) => state.posts);
+  const postsList = useSelector(selectAllPosts);
   const postsOrderedByDate = postsList.slice().sort((a, b) => b.date.localeCompare(a.date));
 
   return (

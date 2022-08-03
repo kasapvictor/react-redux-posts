@@ -8,7 +8,7 @@ import { NotFound } from './NotFound';
 import { About } from './About';
 import { Home } from './Home';
 import { Post } from './Post';
-import { EditPost } from './EditPost';
+import { PostEditForm } from './PostEditForm';
 
 export const App = () => (
   <div className="app">
@@ -21,7 +21,7 @@ export const App = () => (
         <Route index element={<Home />} />
         <Route path={routes.about} element={<About />} />
         <Route exact path={routes.post()} element={<Post />} />
-        <Route exact path={routes.postEdit()} element={<EditPost />} />
+        <Route exact path={routes.postEdit()} element={<PostEditForm />} />
         <Route path={routes.notFound} element={<NotFound />} />
       </Routes>
     </main>
