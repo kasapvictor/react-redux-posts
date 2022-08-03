@@ -1,7 +1,7 @@
 import React from 'react';
 
-// https://dummyjson.com/posts
-// https://jsonplaceholder.typicode.com/posts
+// DOCS: https://dummyjson.com/docs/posts
+// DATA: https://dummyjson.com/posts
 
 import { Posts } from './Posts';
 import { PostAddForm } from './PostAddForm';

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { routes } from './routes';
-import { TimeAgo } from './TimeAgo';
 import { selectPostById } from './store';
 import { PostAuthor } from './PostAuthor';
 import { ReactionButtons } from './ReactionButtons';
@@ -11,7 +10,7 @@ import { ReactionButtons } from './ReactionButtons';
 export const Post = () => {
   const params = useParams();
   const { postId } = params;
-  const postById = useSelector((state) => selectPostById(state, postId));
+  const postById = useSelector((state) => selectPostById(state, +postId));
 
   return (
     <section className="post">
@@ -23,13 +22,12 @@ export const Post = () => {
               <div className="postPreview__meta">
                 <span className="small postPreview__meta-item"> Post ID: {postById.id}</span>
                 <span className="small postPreview__meta-item"> Author: {<PostAuthor id={postById.userId} />} </span>
-                <span className="small postPreview__meta-item"> Created: {<TimeAgo timestamp={postById.date} />} </span>
               </div>
             </div>
             <div className="postBody">
-              <div className="postContent">{postById.content}</div>
+              <div className="postContent">{postById.body}</div>
 
-              <ReactionButtons post={postById} />
+              {/* <ReactionButtons post={postById} /> */}
             </div>
             <div className="postFooter">
               <Link to={routes.postEdit(postById.id)} className="button">

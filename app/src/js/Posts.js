@@ -1,13 +1,13 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from './routes';
 
 import { PostAuthor } from './PostAuthor';
-import { TimeAgo } from './TimeAgo';
+import { Spinner } from './Spinner';
 import { ReactionButtons } from './ReactionButtons';
 
-import { selectAllPosts } from './store';
+import { fetchPosts, selectAllPosts } from './store';
 
 const RenderPosts = ({ posts }) =>
   posts.map((post) => (
@@ -17,12 +17,11 @@ const RenderPosts = ({ posts }) =>
         <div className="postPreview__meta">
           <span className="small postPreview__meta-item"> Post ID: {post.id}</span>
           <span className="small postPreview__meta-item"> Author: {<PostAuthor id={post.userId} />} </span>
-          <span className="small postPreview__meta-item"> Created: {<TimeAgo timestamp={post.date} />} </span>
         </div>
       </div>
 
       <div className="postPreview__body">
-        <div className="postPreview__excerpt">{post.content.substring(0, 100)}...</div>
+        <div className="postPreview__excerpt">{post.body.substring(0, 100)}...</div>
       </div>
       <div className="postPreview__footer">
         <Link to={routes.post(post.id)} className="button">
@@ -30,17 +29,32 @@ const RenderPosts = ({ posts }) =>
         </Link>
       </div>
 
-      <ReactionButtons post={post} />
+      {/* <ReactionButtons post={post.id} /> */}
     </article>
   ));
 
 export const Posts = () => {
-  const postsList = useSelector(selectAllPosts);
-  const postsOrderedByDate = postsList.slice().sort((a, b) => b.date.localeCompare(a.date));
+  const dispatch = useDispatch();
+
+  const posts = useSelector(selectAllPosts);
+  const postStatus = useSelector((state) => state.posts.status);
+  const postError = useSelector((state) => state.posts.error);
+
+  useEffect(() => {
+    if (postStatus === 'idle') {
+      dispatch(fetchPosts());
+    }
+  }, [postStatus, dispatch]);
 
   return (
     <section className="postsPreview">
-      <RenderPosts posts={postsOrderedByDate} />
+      {postStatus === 'failed' && <div className="error__message">{postError}</div>}
+
+      {(postStatus !== 'failed' && postStatus === 'idle') || postStatus === 'loading' ? (
+        <Spinner text="Loading..." />
+      ) : (
+        <RenderPosts posts={posts} />
+      )}
     </section>
   );
 };

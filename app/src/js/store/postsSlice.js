@@ -1,43 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { sub } from 'date-fns';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const initialState = [
-  {
-    id: '1',
-    title: 'First Post!',
-    userId: '1',
-    date: sub(new Date(), { minutes: 10 }).toISOString(),
-    reactions: { thumbsUp: 1, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  },
-  {
-    id: '2',
-    title: 'Second Post',
-    userId: '2',
-    date: sub(new Date(), { minutes: 20 }).toISOString(),
-    reactions: { thumbsUp: 0, hooray: 2, heart: 0, rocket: 0, eyes: 0 },
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  },
-  {
-    id: '3',
-    title: 'Third Post',
-    userId: '0',
-    date: sub(new Date(), { minutes: 30 }).toISOString(),
-    reactions: { thumbsUp: 0, hooray: 0, heart: 3, rocket: 0, eyes: 0 },
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  },
-];
+const URL_FETCH_POSTS = 'https://dummyjson.com/posts';
 
-const reactionsInitialState = {
-  thumbsUp: 0,
-  hooray: 0,
-  heart: 0,
-  rocket: 0,
-  eyes: 0,
+const initialState = {
+  posts: [],
+  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  error: null,
 };
+
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+  const response = await axios.get(URL_FETCH_POSTS);
+  return response.data;
+});
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -45,7 +20,7 @@ const postsSlice = createSlice({
   reducers: {
     postAdd: {
       reducer(state, action) {
-        return [...state, action.payload];
+        state.posts.push(action.payload);
       },
       prepare({ title, content, userId, id, date }) {
         return {
@@ -55,18 +30,18 @@ const postsSlice = createSlice({
             title,
             content,
             userId,
-            reactions: reactionsInitialState,
+            reactions: 0,
           },
         };
       },
     },
     postRemove: (state, action) => {
       const { payload } = action;
-      return state.filter((post) => post.id !== payload);
+      return state.posts.filter((post) => post.id !== payload);
     },
     postUpdate: (state, action) => {
       const { id, title, content } = action.payload;
-      const foundPost = state.find((post) => post.id === id);
+      const foundPost = state.posts.find((post) => post.id === id);
       if (foundPost) {
         foundPost.title = title;
         foundPost.content = content;
@@ -74,16 +49,30 @@ const postsSlice = createSlice({
     },
     postReaction: (state, action) => {
       const { id, reaction } = action.payload;
-      const foundPostById = state.find((post) => post.id === id);
+      const foundPostById = state.posts.find((post) => post.id === id);
       if (foundPostById) {
         foundPostById.reactions[reaction] += 1;
       }
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchPosts.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.posts = [...state.posts, ...action.payload.posts];
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
+  },
 });
 
-export const selectAllPosts = (state) => state.posts;
-export const selectPostById = (state, postId) => state.posts.find((post) => post.id === postId);
+export const selectAllPosts = (state) => state.posts.posts;
+export const selectPostById = (state, postId) => state.posts.posts.find((post) => post.id === postId);
 export const { postAdd, postRemove, postUpdate, postReaction } = postsSlice.actions;
 
 export default postsSlice.reducer;
