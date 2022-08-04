@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const URL_FETCH_POSTS = 'https://dummyjson.com/posts';
+const URL_ADD_NEW_POST = 'https://dummyjson.com/posts/add222';
 
 const initialState = {
   posts: [],
@@ -14,27 +15,15 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return response.data;
 });
 
+export const addNewPost = createAsyncThunk('posts/addPost', async (data) => {
+  const response = await axios.post(URL_ADD_NEW_POST, data);
+  return response.data;
+});
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    postAdd: {
-      reducer(state, action) {
-        state.posts.push(action.payload);
-      },
-      prepare({ title, content, userId, id, date }) {
-        return {
-          payload: {
-            id,
-            date,
-            title,
-            content,
-            userId,
-            reactions: 0,
-          },
-        };
-      },
-    },
     postRemove: (state, action) => {
       const { payload } = action;
       return state.posts.filter((post) => post.id !== payload);
@@ -67,6 +56,10 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        console.log('action', action);
+        state.posts = [action.payload, ...state.posts];
       });
   },
 });

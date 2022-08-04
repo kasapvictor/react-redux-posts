@@ -1,2 +1,3 @@
 export { store } from './store';
-export { fetchPosts, postAdd, postRemove, postUpdate, selectAllPosts, selectPostById } from './postsSlice';
+export { fetchUsers } from './usersSlice';
+export { fetchPosts, addNewPost, postRemove, postUpdate, selectAllPosts, selectPostById } from './postsSlice';

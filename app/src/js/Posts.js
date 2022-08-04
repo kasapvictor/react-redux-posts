@@ -9,7 +9,7 @@ import { ReactionButtons } from './ReactionButtons';
 
 import { fetchPosts, selectAllPosts } from './store';
 
-const RenderPosts = ({ posts }) =>
+const RenderPostsPreviews = ({ posts }) =>
   posts.map((post) => (
     <article key={post.id} className="postPreview">
       <div className="postPreview__header">
@@ -50,11 +50,7 @@ export const Posts = () => {
     <section className="postsPreview">
       {postStatus === 'failed' && <div className="error__message">{postError}</div>}
 
-      {(postStatus !== 'failed' && postStatus === 'idle') || postStatus === 'loading' ? (
-        <Spinner text="Loading..." />
-      ) : (
-        <RenderPosts posts={posts} />
-      )}
+      {postStatus !== 'succeeded' ? <Spinner text="Loading..." /> : <RenderPostsPreviews posts={posts} />}
     </section>
   );
 };

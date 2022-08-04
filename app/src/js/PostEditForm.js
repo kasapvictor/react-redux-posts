@@ -8,11 +8,14 @@ import { postUpdate, selectPostById } from './store';
 export const PostEditForm = () => {
   const params = useParams();
   const { postId } = params;
-  const postById = useSelector((state) => selectPostById(state, postId));
+  const postById = useSelector((state) => selectPostById(state, +postId));
+
+  console.log('postById', postById);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [title, setTitle] = useState(postById.title);
-  const [content, setContent] = useState(postById.content);
+  const [content, setContent] = useState(postById.body);
 
   const titleRef = useRef();
 
@@ -40,7 +43,7 @@ export const PostEditForm = () => {
       <div className="container">
         <div className="postAdd">
           <div className="postAdd__header">
-            <h3 className="h3">Edit {postById.title}</h3>
+            <h3 className="h3">Edit: "{postById.title}"</h3>
             <span className="small postPreview__id"> Post ID: {postById.id}</span>
           </div>
           <div className="postAdd__body">

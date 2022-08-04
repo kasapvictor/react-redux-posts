@@ -1,45 +1,57 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from '@reduxjs/toolkit';
 
-import { postAdd } from './store';
+import { addNewPost } from './store';
 
 export const PostAddForm = () => {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
-  const users = useSelector((state) => state.users);
-  const [userId, setUserId] = useState(null);
-
   const formRef = useRef(null);
+  const users = useSelector((state) => state.users);
+  const [requestStatus, setRequestStatus] = useState('idle');
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(1);
+  const [body, setBody] = useState('');
+  const [error, setError] = useState(null);
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
   };
 
-  const handleContent = (e) => {
-    setContent(e.target.value);
+  const handleBody = (e) => {
+    setBody(e.target.value);
   };
 
   const handleAuthor = (e) => {
     setUserId(e.target.value);
   };
 
-  const handleAddPost = () => {
-    const id = nanoid();
-    const date = new Date().toISOString();
+  const isValid = [title, body, userId].every(Boolean) && requestStatus === 'idle';
 
-    if (!!title && !!content) {
-      dispatch(postAdd({ id, title, content, userId, date }));
-      setTitle('');
-      setContent('');
-      setUserId(null);
-      formRef.current.reset();
+  const handleAddPost = async () => {
+    if (!isValid) {
+      return false;
     }
+
+    try {
+      setError(null);
+      setRequestStatus('panding');
+      await dispatch(addNewPost({ title, body, userId: +userId })).unwrap();
+      setTitle('');
+      setBody('');
+      setUserId(1);
+      formRef.current.reset();
+    } catch (err) {
+      setRequestStatus('error');
+      setError(err.message);
+      console.log('ERR --->', err);
+    } finally {
+      setRequestStatus('idle');
+    }
+
+    return true;
   };
 
-  const disabled = !title || !content;
+  const disabled = !title || !body;
 
   return (
     <div className="postAdd">
@@ -70,7 +82,7 @@ export const PostAddForm = () => {
                 <select className="form__field form__select" name="author" id="author" onChange={handleAuthor}>
                   {users.map((user) => (
                     <option key={user.id} value={user.id}>
-                      {user.name}
+                      {user.firstName} {user.lastName}
                     </option>
                   ))}
                 </select>
@@ -80,13 +92,7 @@ export const PostAddForm = () => {
             <div className="form__row">
               <label htmlFor="content" className="form__label">
                 <span className="form__label-name">Content:</span>
-                <textarea
-                  className="form__field"
-                  name="content"
-                  value={content}
-                  id="content"
-                  onChange={handleContent}
-                />
+                <textarea className="form__field" name="content" value={body} id="content" onChange={handleBody} />
               </label>
             </div>
           </div>
@@ -98,9 +104,11 @@ export const PostAddForm = () => {
               onClick={handleAddPost}
               disabled={disabled}
             >
-              Add new post
+              {requestStatus === 'panding' ? 'Process ...' : 'Add new post'}
             </button>
           </div>
+
+          {error && <div className="error__message">{error}</div>}
         </form>
       </div>
     </div>

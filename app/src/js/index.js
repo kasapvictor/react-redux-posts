@@ -4,20 +4,26 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './App';
-import { store } from './store';
+import { store, fetchUsers } from './store';
 
 import '../scss/styles.scss';
 
-const container = document.getElementById('root-container');
+const init = () => {
+  store.dispatch(fetchUsers());
 
-if (container) {
-  const root = createRoot(container);
+  const container = document.getElementById('root-container');
 
-  root.render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>,
-  );
-}
+  if (container) {
+    const root = createRoot(container);
+
+    root.render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>,
+    );
+  }
+};
+
+init();
