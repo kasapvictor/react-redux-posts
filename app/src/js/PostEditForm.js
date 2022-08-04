@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { routes } from './routes';
-import { postUpdate, selectPostById } from './store';
+import { updatePost, selectPostById } from './store';
 
 export const PostEditForm = () => {
+  const dispatch = useDispatch();
   const params = useParams();
   const { postId } = params;
+
   const postById = useSelector((state) => selectPostById(state, +postId));
-
-  console.log('postById', postById);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [title, setTitle] = useState(postById.title);
-  const [content, setContent] = useState(postById.body);
+  const [body, setBody] = useState(postById.body);
+  const [requestStatus, setRequestStatus] = useState('idle');
+  const [error, setError] = useState(null);
 
   const titleRef = useRef();
 
@@ -23,20 +23,41 @@ export const PostEditForm = () => {
     setTitle(e.target.value);
   };
 
-  const handleContent = (e) => {
-    setContent(e.target.value);
+  const handleBody = (e) => {
+    setBody(e.target.value);
   };
 
-  const handleEditPost = () => {
-    if (title !== '' && content !== '') {
-      dispatch(postUpdate({ id: postId, title, content }));
-      navigate(routes.post(postId));
+  const isValid = [title, body].every(Boolean) && requestStatus === 'idle';
+
+  const handleEditPost = async () => {
+    if (!isValid) {
+      return false;
     }
+
+    // TODO УДАЛИТЬ  try catch И ПРОВЕРЯТЬ СОСТОЯНИЯ ИЗ СТЕЙТА
+    try {
+      setError(null);
+      setRequestStatus('panding');
+      dispatch(updatePost({ id: postId, title, body })).unwrap();
+      // navigate(routes.post(postId));
+    } catch (err) {
+      setRequestStatus('error');
+
+      console.log('message', err.message);
+      setError(err.message);
+      console.log('ERR UPDATE --->', err);
+    } finally {
+      setRequestStatus('idle');
+    }
+
+    return true;
   };
 
   useEffect(() => {
     titleRef.current.focus();
   }, [titleRef]);
+
+  const disabled = !title || !body;
 
   return (
     <section className="section">
@@ -67,22 +88,23 @@ export const PostEditForm = () => {
                 <div className="form__row">
                   <label htmlFor="content" className="form__label">
                     <span className="form__label-name">Content:</span>
-                    <textarea
-                      onChange={handleContent}
-                      className="form__field"
-                      value={content}
-                      name="content"
-                      id="content"
-                    />
+                    <textarea onChange={handleBody} className="form__field" value={body} name="content" id="content" />
                   </label>
                 </div>
               </div>
 
               <div className="form__buttons">
-                <button type="button" className="button form__button form__button-submit" onClick={handleEditPost}>
-                  Save
+                <button
+                  type="button"
+                  className="button form__button form__button-submit"
+                  onClick={handleEditPost}
+                  disabled={disabled}
+                >
+                  {requestStatus === 'panding' ? 'Process ...' : 'Save post'}
                 </button>
               </div>
+
+              {error && <div className="error__message">{error}</div>}
             </form>
           </div>
         </div>

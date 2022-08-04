@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const URL_FETCH_POSTS = 'https://dummyjson.com/posts';
-const URL_ADD_NEW_POST = 'https://dummyjson.com/posts/add222';
+const URL_ADD_NEW_POST = 'https://dummyjson.com/posts/add';
+const URL_UPDATE_POST = 'https://dummyjson.com/postss';
 
 const initialState = {
   posts: [],
@@ -20,6 +21,12 @@ export const addNewPost = createAsyncThunk('posts/addPost', async (data) => {
   return response.data;
 });
 
+export const updatePost = createAsyncThunk('posts/updatePost', async (data) => {
+  const { id, ...restData } = data;
+  const response = await axios.put(`${URL_UPDATE_POST}/${id}`, restData);
+  return response.data;
+});
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
@@ -28,19 +35,11 @@ const postsSlice = createSlice({
       const { payload } = action;
       return state.posts.filter((post) => post.id !== payload);
     },
-    postUpdate: (state, action) => {
-      const { id, title, content } = action.payload;
-      const foundPost = state.posts.find((post) => post.id === id);
-      if (foundPost) {
-        foundPost.title = title;
-        foundPost.content = content;
-      }
-    },
     postReaction: (state, action) => {
-      const { id, reaction } = action.payload;
+      const { id } = action.payload;
       const foundPostById = state.posts.find((post) => post.id === id);
       if (foundPostById) {
-        foundPostById.reactions[reaction] += 1;
+        foundPostById.reactions += 1;
       }
     },
   },
@@ -58,8 +57,17 @@ const postsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        console.log('action', action);
         state.posts = [action.payload, ...state.posts];
+      })
+      /// TODO ДОБАВИТЬ КЕЙСЫ СОСТОЯНИЙ ЧТОБЫ ВЫВОДИТЬ ОШИБКУ!
+      .addCase(updatePost.fulfilled, (state, action) => {
+        const { id, title, body } = action.payload;
+        const foundPost = state.posts.find((post) => post.id === +id);
+
+        if (foundPost) {
+          foundPost.title = title;
+          foundPost.body = body;
+        }
       });
   },
 });

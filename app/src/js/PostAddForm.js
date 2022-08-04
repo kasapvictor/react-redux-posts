@@ -9,7 +9,7 @@ export const PostAddForm = () => {
   const users = useSelector((state) => state.users);
   const [requestStatus, setRequestStatus] = useState('idle');
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState('');
   const [body, setBody] = useState('');
   const [error, setError] = useState(null);
 
@@ -38,12 +38,12 @@ export const PostAddForm = () => {
       await dispatch(addNewPost({ title, body, userId: +userId })).unwrap();
       setTitle('');
       setBody('');
-      setUserId(1);
+      setUserId('');
       formRef.current.reset();
     } catch (err) {
       setRequestStatus('error');
       setError(err.message);
-      console.log('ERR --->', err);
+      console.log('ERR ADD --->', err);
     } finally {
       setRequestStatus('idle');
     }
@@ -80,6 +80,7 @@ export const PostAddForm = () => {
               <label htmlFor="author" className="form__label">
                 <span className="form__label-name">Author:</span>
                 <select className="form__field form__select" name="author" id="author" onChange={handleAuthor}>
+                  <option value="">Chose Author</option>
                   {users.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.firstName} {user.lastName}

@@ -14,16 +14,16 @@ const reactionEmoji = {
 export const ReactionButtons = ({ post }) => {
   const dispatch = useDispatch();
 
-  const handleButton = (name) => () => {
-    dispatch(postReaction({ id: post.id, reaction: name }));
+  const handleButton = () => {
+    dispatch(postReaction({ id: post.id }));
   };
 
-  const reactionButtons = Object.entries(reactionEmoji).map(([name, emoji]) => (
-      <button key={name} type="button" className="buttonReaction" onClick={handleButton(name)}>
-        <span className="buttonReaction__icon">{emoji}</span>
-        <span className="buttonReaction__count">{post.reactions[name]}</span>
+  return (
+    <div className="postReactions">
+      <button type="button" className="buttonReaction" onClick={handleButton}>
+        <span className="buttonReaction__icon">{reactionEmoji.thumbsUp}</span>
+        <span className="buttonReaction__count">{post.reactions}</span>
       </button>
-  ));
-
-  return <div className="postReactions">{reactionButtons}</div>;
+    </div>
+  );
 };

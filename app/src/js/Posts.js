@@ -27,9 +27,8 @@ const RenderPostsPreviews = ({ posts }) =>
         <Link to={routes.post(post.id)} className="button">
           Read post
         </Link>
+        <ReactionButtons post={post} />
       </div>
-
-      {/* <ReactionButtons post={post.id} /> */}
     </article>
   ));
 
@@ -50,7 +49,9 @@ export const Posts = () => {
     <section className="postsPreview">
       {postStatus === 'failed' && <div className="error__message">{postError}</div>}
 
-      {postStatus !== 'succeeded' ? <Spinner text="Loading..." /> : <RenderPostsPreviews posts={posts} />}
+      {postStatus === 'loading' && <Spinner text="Loading..." />}
+
+      {postStatus === 'succeeded' && <RenderPostsPreviews posts={posts} />}
     </section>
   );
 };
