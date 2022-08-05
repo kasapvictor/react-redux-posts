@@ -36,7 +36,7 @@ export const Posts = () => {
   const dispatch = useDispatch();
 
   const posts = useSelector(selectAllPosts);
-  const postStatus = useSelector((state) => state.posts.status);
+  const postStatus = useSelector((state) => state.posts.statusFetch);
   const postError = useSelector((state) => state.posts.error);
 
   useEffect(() => {

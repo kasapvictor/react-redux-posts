@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { routes } from './routes';
-import { updatePost, selectPostById } from './store';
+import { updatePost, selectPostById, resetUpdateStatus } from './store';
 
 export const PostEditForm = () => {
   const dispatch = useDispatch();
@@ -14,8 +14,9 @@ export const PostEditForm = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState(postById.title);
   const [body, setBody] = useState(postById.body);
-  const [requestStatus, setRequestStatus] = useState('idle');
-  const [error, setError] = useState(null);
+
+  const postStatus = useSelector((state) => state.posts.statusUpdate);
+  const postError = useSelector((state) => state.posts.error);
 
   const titleRef = useRef();
 
@@ -27,31 +28,24 @@ export const PostEditForm = () => {
     setBody(e.target.value);
   };
 
-  const isValid = [title, body].every(Boolean) && requestStatus === 'idle';
+  const isValid = [title, body].every(Boolean);
 
   const handleEditPost = async () => {
     if (!isValid) {
       return false;
     }
 
-    // TODO УДАЛИТЬ  try catch И ПРОВЕРЯТЬ СОСТОЯНИЯ ИЗ СТЕЙТА
-    try {
-      setError(null);
-      setRequestStatus('panding');
-      dispatch(updatePost({ id: postId, title, body })).unwrap();
-      // navigate(routes.post(postId));
-    } catch (err) {
-      setRequestStatus('error');
-
-      console.log('message', err.message);
-      setError(err.message);
-      console.log('ERR UPDATE --->', err);
-    } finally {
-      setRequestStatus('idle');
-    }
+    dispatch(updatePost({ id: postId, title, body }));
 
     return true;
   };
+
+  useEffect(() => {
+    if (postStatus === 'succeeded') {
+      navigate(routes.post(postId));
+      dispatch(resetUpdateStatus());
+    }
+  }, [postStatus]);
 
   useEffect(() => {
     titleRef.current.focus();
@@ -100,11 +94,11 @@ export const PostEditForm = () => {
                   onClick={handleEditPost}
                   disabled={disabled}
                 >
-                  {requestStatus === 'panding' ? 'Process ...' : 'Save post'}
+                  {postStatus === 'loading' ? 'Updating ...' : 'Save post'}
                 </button>
               </div>
 
-              {error && <div className="error__message">{error}</div>}
+              {postStatus === 'failed' && <div className="error__message">{postError}</div>}
             </form>
           </div>
         </div>

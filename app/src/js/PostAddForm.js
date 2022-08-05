@@ -34,7 +34,7 @@ export const PostAddForm = () => {
 
     try {
       setError(null);
-      setRequestStatus('panding');
+      setRequestStatus('pending');
       await dispatch(addNewPost({ title, body, userId: +userId })).unwrap();
       setTitle('');
       setBody('');
@@ -105,7 +105,7 @@ export const PostAddForm = () => {
               onClick={handleAddPost}
               disabled={disabled}
             >
-              {requestStatus === 'panding' ? 'Process ...' : 'Add new post'}
+              {requestStatus === 'pending' ? 'Process ...' : 'Add new post'}
             </button>
           </div>
 

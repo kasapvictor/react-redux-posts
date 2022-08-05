@@ -3,11 +3,12 @@ import axios from 'axios';
 
 const URL_FETCH_POSTS = 'https://dummyjson.com/posts';
 const URL_ADD_NEW_POST = 'https://dummyjson.com/posts/add';
-const URL_UPDATE_POST = 'https://dummyjson.com/postss';
+const URL_UPDATE_POST = 'https://dummyjson.com/posts';
 
 const initialState = {
   posts: [],
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  statusFetch: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  statusUpdate: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
 
@@ -42,24 +43,29 @@ const postsSlice = createSlice({
         foundPostById.reactions += 1;
       }
     },
+    resetUpdateStatus: (state) => {
+      state.statusUpdate = 'idle';
+    },
   },
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state) => {
-        state.status = 'loading';
+        state.statusFetch = 'loading';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.statusFetch = 'succeeded';
         state.posts = [...state.posts, ...action.payload.posts];
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = 'failed';
+        state.statusFetch = 'failed';
         state.error = action.error.message;
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.posts = [action.payload, ...state.posts];
       })
-      /// TODO ДОБАВИТЬ КЕЙСЫ СОСТОЯНИЙ ЧТОБЫ ВЫВОДИТЬ ОШИБКУ!
+      .addCase(updatePost.pending, (state) => {
+        state.statusUpdate = 'loading';
+      })
       .addCase(updatePost.fulfilled, (state, action) => {
         const { id, title, body } = action.payload;
         const foundPost = state.posts.find((post) => post.id === +id);
@@ -68,12 +74,18 @@ const postsSlice = createSlice({
           foundPost.title = title;
           foundPost.body = body;
         }
+
+        state.statusUpdate = 'succeeded';
+      })
+      .addCase(updatePost.rejected, (state, action) => {
+        state.statusUpdate = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
 export const selectAllPosts = (state) => state.posts.posts;
 export const selectPostById = (state, postId) => state.posts.posts.find((post) => post.id === postId);
-export const { postAdd, postRemove, postUpdate, postReaction } = postsSlice.actions;
+export const { postRemove, postReaction, resetUpdateStatus } = postsSlice.actions;
 
 export default postsSlice.reducer;
