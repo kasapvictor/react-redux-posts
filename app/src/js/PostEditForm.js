@@ -35,7 +35,7 @@ export const PostEditForm = () => {
       return false;
     }
 
-    dispatch(updatePost({ id: postId, title, body }));
+    dispatch(updatePost({ id: postId, title, body, reactions: postById.reactions, tags: postById.tags }));
 
     return true;
   };

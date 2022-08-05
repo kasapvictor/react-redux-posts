@@ -27,8 +27,6 @@ export const PostAddForm = () => {
 
   const isValid = [title, body, userId].every(Boolean) && requestStatus === 'idle';
 
-  console.log('isValid', isValid);
-
   const handleAddPost = async () => {
     if (!isValid) {
       return false;
@@ -38,7 +36,7 @@ export const PostAddForm = () => {
       setError(null);
       setRequestStatus('pending');
 
-      await dispatch(addNewPost({ title, body, userId: +userId })).unwrap();
+      await dispatch(addNewPost({ title, body, userId: +userId, reactions: 0, tags: [] })).unwrap();
 
       setTitle('');
       setBody('');

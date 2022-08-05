@@ -14,17 +14,25 @@ const initialState = {
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = await axios.get(URL_FETCH_POSTS);
+
   return response.data;
 });
 
 export const addNewPost = createAsyncThunk('posts/addPost', async (data) => {
   const response = await axios.post(URL_ADD_NEW_POST, data);
+
   return response.data;
 });
 
 export const updatePost = createAsyncThunk('posts/updatePost', async (data) => {
   const { id, ...restData } = data;
+
+  console.log('restData', restData);
+
   const response = await axios.put(`${URL_UPDATE_POST}/${id}`, restData);
+
+  console.log('response', response);
+
   return response.data;
 });
 
