@@ -27,6 +27,8 @@ export const PostAddForm = () => {
 
   const isValid = [title, body, userId].every(Boolean) && requestStatus === 'idle';
 
+  console.log('isValid', isValid);
+
   const handleAddPost = async () => {
     if (!isValid) {
       return false;
@@ -35,7 +37,9 @@ export const PostAddForm = () => {
     try {
       setError(null);
       setRequestStatus('pending');
+
       await dispatch(addNewPost({ title, body, userId: +userId })).unwrap();
+
       setTitle('');
       setBody('');
       setUserId('');
@@ -43,15 +47,12 @@ export const PostAddForm = () => {
     } catch (err) {
       setRequestStatus('error');
       setError(err.message);
-      console.log('ERR ADD --->', err);
     } finally {
       setRequestStatus('idle');
     }
 
     return true;
   };
-
-  const disabled = !title || !body;
 
   return (
     <div className="postAdd">
@@ -103,7 +104,7 @@ export const PostAddForm = () => {
               type="button"
               className="button form__button form__button-submit"
               onClick={handleAddPost}
-              disabled={disabled}
+              disabled={!isValid}
             >
               {requestStatus === 'pending' ? 'Process ...' : 'Add new post'}
             </button>
