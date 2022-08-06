@@ -9,8 +9,8 @@ export const UsersList = () => {
   const users = useSelector(selectAllUsers);
 
   const renderUsers = users.map((user) => (
-    <li key={user.id}>
-      <Link to={routes.user(user.id)}>
+    <li key={user.id} className="usersList__item">
+      <Link to={routes.user(user.id)} className="usersList__link link">
         {user.firstName} {user.lastName}
       </Link>
     </li>

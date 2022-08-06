@@ -21,7 +21,7 @@ export const App = () => (
     <main className="main">
       <Routes>
         <Route index element={<Home />} />
-        <Route path={routes.user()} element={<User />} />
+        <Route exact path={routes.user()} element={<User />} />
         <Route path={routes.about} element={<About />} />
         <Route path={routes.users} element={<UsersList />} />
         <Route path={routes.notFound} element={<NotFound />} />

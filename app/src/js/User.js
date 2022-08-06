@@ -1,14 +1,30 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
-import { selectUserById } from './store';
+import { selectUserById, selectAllPosts } from './store';
+import { routes } from './routes';
 
 export const User = () => {
   const { userId } = useParams();
   const user = useSelector((state) => selectUserById(state, +userId));
+  const userPosts = useSelector((state) => {
+    const posts = selectAllPosts(state);
+    return posts.filter((post) => post.userId === user.id);
+  });
 
-  console.log('user', user);
+  console.log('userPosts', userPosts, !!userPosts);
+
+  const renderPosts = userPosts.map((post) => (
+    <li key={post.id} className="userPosts__item">
+      <Link to={routes.post(post.id)} className="userPosts__link link">
+        {post.title}
+      </Link>
+      <div className="meta">
+        <span className="meta__item">Reactions: {post.reactions}</span>
+      </div>
+    </li>
+  ));
 
   return (
     <div className="container">
@@ -39,6 +55,16 @@ export const User = () => {
               Address: {user.address.address}, {user.address.city}, ZIP {user.address.zip}
             </p>
           </div>
+        </div>
+        <div className="userPosts">
+          {userPosts.length > 0 ? (
+            <>
+              <h2 className="h2">Posts:</h2>
+              <ul className="userPosts__list">{renderPosts}</ul>
+            </>
+          ) : (
+            <h2 className="h2">No posts</h2>
+          )}
         </div>
       </div>
     </div>

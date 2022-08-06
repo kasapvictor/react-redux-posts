@@ -12,3 +12,18 @@
   border: 2px solid $color5;
 }
 
+.userPosts {
+  @include pt($size: 10);
+}
+
+.userPosts__list {
+}
+
+.userPosts__item {
+  @include pt($size: 3);
+}
+
+.userPosts__link {
+
+  font-size: $fontSizeBig;
+}
