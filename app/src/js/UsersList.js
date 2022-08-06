@@ -8,8 +8,6 @@ import { routes } from './routes';
 export const UsersList = () => {
   const users = useSelector(selectAllUsers);
 
-  console.log(users);
-
   const renderUsers = users.map((user) => (
     <li key={user.id}>
       <Link to={routes.user(user.id)}>
