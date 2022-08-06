@@ -13,6 +13,11 @@ export const Navigation = () => (
           </NavLink>
         </li>
         <li className="navigation__item">
+          <NavLink to={routes.users} className="navigation__link" end>
+            [ Users ]
+          </NavLink>
+        </li>
+        <li className="navigation__item">
           <NavLink to={routes.about} className="navigation__link" end>
             [ About ]
           </NavLink>

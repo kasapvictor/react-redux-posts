@@ -1,5 +1,5 @@
 export { store } from './store';
-export { fetchUsers } from './usersSlice';
+export { fetchUsers, selectAllUsers, selectUserById } from './usersSlice';
 export {
   fetchPosts,
   addNewPost,
