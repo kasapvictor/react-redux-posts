@@ -77,7 +77,6 @@ const postsSlice = createSlice({
         const { id, title, body, userId, tags, reactions } = action.payload;
         const foundPost = state.posts.find((post) => post.id === +id);
 
-        // TODO ПОДУМАТЬ КАК УПРОСТИТЬ ЭТУ ЗАПИСЬ
         if (foundPost) {
           foundPost.title = title;
           foundPost.body = body;
