@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const URL_FETCH_POSTS = 'https://dummyjson.com/posts';
@@ -95,5 +95,9 @@ const postsSlice = createSlice({
 export const selectAllPosts = (state) => state.posts.posts;
 export const selectPostById = (state, postId) => state.posts.posts.find((post) => post.id === postId);
 export const { postUpdatingId, postRemove, resetUpdateStatus } = postsSlice.actions;
+
+export const selectPostsByUser = createSelector([selectAllPosts, (state, userId) => userId], (posts, userId) =>
+  posts.filter((post) => +post.userId === +userId),
+);
 
 export default postsSlice.reducer;
