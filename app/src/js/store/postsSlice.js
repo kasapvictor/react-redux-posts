@@ -7,6 +7,7 @@ const URL_UPDATE_POST = 'https://dummyjson.com/posts';
 
 const postsAdapter = createEntityAdapter();
 
+// getInitialState() ->  {ids: [], entities: {}}
 const initialState = postsAdapter.getInitialState({
   statusFetch: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   statusUpdate: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -62,7 +63,7 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.statusFetch = 'succeeded';
         // state.posts = [...state.posts, ...action.payload.posts];
-        postsAdapter.addMany(state, action.payload.posts);
+        postsAdapter.upsertMany(state, action.payload.posts);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.statusFetch = 'failed';
@@ -75,7 +76,7 @@ const postsSlice = createSlice({
       .addCase(updatePost.fulfilled, (state, action) => {
         state.statusUpdate = 'succeeded';
         const { id, title, body, userId, tags, reactions } = action.payload;
-        const foundPost = state.entities.find((post) => post.id === +id);
+        const foundPost = state.entities[id];
 
         if (foundPost) {
           foundPost.title = title;
