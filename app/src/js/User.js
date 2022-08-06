@@ -2,15 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 
-import { selectUserById, selectAllPosts, selectPostsByUser } from './store';
+import { selectUserById, selectPostsByUser } from './store';
 import { routes } from './routes';
 
 export const User = () => {
   const { userId } = useParams();
   const user = useSelector((state) => selectUserById(state, +userId));
   const userPosts = useSelector((state) => selectPostsByUser(state, userId));
-
-  console.log('userPosts', userId, userPosts, !!userPosts);
 
   const renderPosts = userPosts.map((post) => (
     <li key={post.id} className="userPosts__item">
