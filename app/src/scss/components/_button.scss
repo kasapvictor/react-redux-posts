@@ -28,6 +28,8 @@
 }
 
 .buttonReaction {
+  display: flex;
+  align-items: center;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 30px;
@@ -36,6 +38,19 @@
   &:hover {
     border-color: $buttonReactionBorderColorHover;
   }
+}
+
+.buttonReaction__counter {
+  width: 20px;
+  height: 20px;
+  //min-width: 20px;
+  //max-width: 20px;
+  //min-height: 20px;
+  //max-height: 20px;
+}
+
+.buttonReaction__spinner {
+  transform: translateY(-6px);
 }
 
 .buttonReaction__icon {

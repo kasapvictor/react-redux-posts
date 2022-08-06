@@ -1,7 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { postReaction, resetUpdateStatus, updatePost } from './store/postsSlice';
+import { resetUpdateStatus, updatePost, postUpdatingId } from './store';
+import { Spinner } from './Spinner';
 
 const reactionEmoji = {
   thumbsUp: '👍',
@@ -13,32 +14,48 @@ const reactionEmoji = {
 
 export const ReactionButtons = ({ post }) => {
   const dispatch = useDispatch();
+  const postStatusUpdate = useSelector((state) => state.posts.statusUpdate);
+  const postUpdating = useSelector((state) => state.posts.postUpdatingId);
 
-  const handleButton = () => {
-    dispatch(postReaction({ id: post.id }));
-    // console.log(post.reactions);
-    dispatch(
+  const handleButton = async () => {
+    dispatch(postUpdatingId(post.id));
+
+    await dispatch(
       updatePost({
         id: post.id,
         title: post.title,
         body: post.body,
         userId: post.userId,
         tags: post.tags,
-        reactions: post.reactions,
+        reactions: post.reactions + 1,
       }),
     );
 
-    // TODO СБРОСИТЬ СТАТУС НА idle
-    setTimeout(() => {
-      dispatch(resetUpdateStatus());
-    }, 500);
+    dispatch(resetUpdateStatus());
   };
 
   return (
     <div className="postReactions">
       <button type="button" className="buttonReaction" onClick={handleButton}>
         <span className="buttonReaction__icon">{reactionEmoji.thumbsUp}</span>
-        <span className="buttonReaction__count">{post.reactions}</span>
+
+        <div className="buttonReaction__counter">
+          {postUpdating === post.id && (
+            <>
+              {postStatusUpdate === 'failed' && <div>&times;</div>}
+
+              {postStatusUpdate === 'loading' && (
+                <div className="buttonReaction__spinner">
+                  <Spinner size="1rem" />
+                </div>
+              )}
+
+              {postStatusUpdate === 'idle' && <span className="buttonReaction__count">{post.reactions}</span>}
+            </>
+          )}
+
+          {postUpdating !== post.id && <span className="buttonReaction__count">{post.reactions}</span>}
+        </div>
       </button>
     </div>
   );

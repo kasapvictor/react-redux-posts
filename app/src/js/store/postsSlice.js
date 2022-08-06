@@ -9,6 +9,7 @@ const initialState = {
   posts: [],
   statusFetch: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   statusUpdate: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  postUpdatingId: null,
   error: null,
 };
 
@@ -27,11 +28,11 @@ export const addNewPost = createAsyncThunk('posts/addPost', async (data) => {
 export const updatePost = createAsyncThunk('posts/updatePost', async (data) => {
   const { id, ...restData } = data;
 
-  console.log('restData', restData);
+  console.log('UPDATE restData', restData);
 
   const response = await axios.put(`${URL_UPDATE_POST}/${id}`, restData);
 
-  console.log('response', response);
+  console.log('UPDATE response', response);
 
   return response.data;
 });
@@ -40,16 +41,13 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
+    postUpdatingId: (state, action) => {
+      console.log(action);
+      state.postUpdatingId = action.payload;
+    },
     postRemove: (state, action) => {
       const { payload } = action;
       return state.posts.filter((post) => post.id !== payload);
-    },
-    postReaction: (state, action) => {
-      const { id } = action.payload;
-      const foundPostById = state.posts.find((post) => post.id === id);
-      if (foundPostById) {
-        foundPostById.reactions += 1;
-      }
     },
     resetUpdateStatus: (state) => {
       state.statusUpdate = 'idle';
@@ -75,15 +73,18 @@ const postsSlice = createSlice({
         state.statusUpdate = 'loading';
       })
       .addCase(updatePost.fulfilled, (state, action) => {
-        const { id, title, body } = action.payload;
+        state.statusUpdate = 'succeeded';
+        const { id, title, body, userId, tags, reactions } = action.payload;
         const foundPost = state.posts.find((post) => post.id === +id);
 
+        // TODO ПОДУМАТЬ КАК УПРОСТИТЬ ЭТУ ЗАПИСЬ
         if (foundPost) {
           foundPost.title = title;
           foundPost.body = body;
+          foundPost.userId = userId;
+          foundPost.tags = tags;
+          foundPost.reactions = reactions;
         }
-
-        state.statusUpdate = 'succeeded';
       })
       .addCase(updatePost.rejected, (state, action) => {
         state.statusUpdate = 'failed';
@@ -94,6 +95,6 @@ const postsSlice = createSlice({
 
 export const selectAllPosts = (state) => state.posts.posts;
 export const selectPostById = (state, postId) => state.posts.posts.find((post) => post.id === postId);
-export const { postRemove, postReaction, resetUpdateStatus } = postsSlice.actions;
+export const { postUpdatingId, postRemove, resetUpdateStatus } = postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -15,7 +15,7 @@ export const PostEditForm = () => {
   const [title, setTitle] = useState(postById.title);
   const [body, setBody] = useState(postById.body);
 
-  const postStatus = useSelector((state) => state.posts.statusUpdate);
+  const postStatusUpdate = useSelector((state) => state.posts.statusUpdate);
   const postError = useSelector((state) => state.posts.error);
 
   const titleRef = useRef();
@@ -41,11 +41,11 @@ export const PostEditForm = () => {
   };
 
   useEffect(() => {
-    if (postStatus === 'succeeded') {
-      navigate(routes.post(postId));
+    if (postStatusUpdate === 'succeeded') {
       dispatch(resetUpdateStatus());
+      navigate(routes.post(postId));
     }
-  }, [postStatus]);
+  }, [postStatusUpdate]);
 
   useEffect(() => {
     titleRef.current.focus();
@@ -94,11 +94,11 @@ export const PostEditForm = () => {
                   onClick={handleEditPost}
                   disabled={disabled}
                 >
-                  {postStatus === 'loading' ? 'Updating ...' : 'Save post'}
+                  {postStatusUpdate === 'loading' ? 'Updating ...' : 'Save post'}
                 </button>
               </div>
 
-              {postStatus === 'failed' && <div className="error__message">{postError}</div>}
+              {postStatusUpdate === 'failed' && <div className="error__message">{postError}</div>}
             </form>
           </div>
         </div>

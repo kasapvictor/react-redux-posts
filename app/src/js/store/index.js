@@ -5,6 +5,7 @@ export {
   addNewPost,
   updatePost,
   postRemove,
+  postUpdatingId,
   selectAllPosts,
   selectPostById,
   resetUpdateStatus,
