@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { selectAllPosts, selectAllUsers } from './store';
-import { routes } from './routes';
+import { selectAllPosts, selectAllUsers } from '../../store';
+import { routes } from '../../common/routes';
 
 export const UsersList = () => {
   const users = useSelector(selectAllUsers);

@@ -3,8 +3,8 @@ import React from 'react';
 // DOCS: https://dummyjson.com/docs/posts
 // DATA: https://dummyjson.com/posts
 
-import { Posts } from './Posts';
-import { PostAddForm } from './PostAddForm';
+import { Posts } from '../features/posts/Posts';
+import { PostAddForm } from '../features/posts/PostAddForm';
 
 export const Home = () => (
   <div className="container">

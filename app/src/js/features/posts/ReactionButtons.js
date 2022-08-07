@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { resetUpdateStatus, updatePost, postUpdatingId } from './store';
-import { Spinner } from './Spinner';
+import { resetUpdateStatus, updatePost, postUpdatingId } from '../../store';
+import { Spinner } from '../../components/Spinner';
 
 const reactionEmoji = {
   thumbsUp: '👍',

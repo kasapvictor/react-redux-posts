@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { removePost } from './postsSlice';
+import { removePost } from '../posts/postsSlice';
 
 const URL_FETCH_USERS = 'https://dummyjson.com/users';
 

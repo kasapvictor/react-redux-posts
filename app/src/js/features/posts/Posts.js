@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routes } from './routes';
 
-import { PostAuthor } from './PostAuthor';
-import { Spinner } from './Spinner';
+import { routes } from '../../common/routes';
+import { Spinner } from '../../components/Spinner';
+import { fetchPosts, selectPostById, selectPostsIds } from '../../store';
+
 import { ReactionButtons } from './ReactionButtons';
-import { fetchPosts, selectPostById, selectPostsIds } from './store';
+import { PostAuthor } from './PostAuthor';
 
 // https://redux.js.org/style-guide/#connect-more-components-to-read-data-from-the-store
 const PostExcerpt = ({ postId }) => {

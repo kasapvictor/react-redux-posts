@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { routes } from './routes';
-import { updatePost, selectPostById, resetUpdateStatus } from './store';
+import { routes } from '../../common/routes';
+import { updatePost, selectPostById, resetUpdateStatus } from '../../store';
 
 export const PostEditForm = () => {
   const dispatch = useDispatch();

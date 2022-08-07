@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addNewPost } from './store';
+import { addNewPost } from '../../store';
 
 export const PostAddForm = () => {
   const dispatch = useDispatch();

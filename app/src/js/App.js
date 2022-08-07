@@ -1,16 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { routes } from './routes';
+import { routes } from './common/routes';
 
-import { PostEditForm } from './PostEditForm';
-import { Navigation } from './Navigation';
-import { UsersList } from './UsersList';
-import { NotFound } from './NotFound';
-import { About } from './About';
-import { Home } from './Home';
-import { Post } from './Post';
-import { User } from './User';
+import { PostEditForm } from './features/posts/PostEditForm';
+import { Navigation } from './components/Navigation';
+import { UsersList } from './features/users/UsersList';
+import { NotFound } from './pages/NotFound';
+import { About } from './pages/About';
+import { Home } from './pages/Home';
+import { Post } from './features/posts/Post';
+import { User } from './features/users/User';
 
 export const App = () => (
   <div className="app">

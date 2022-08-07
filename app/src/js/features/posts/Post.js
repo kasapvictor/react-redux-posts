@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-import { routes } from './routes';
-import { removePost, resetRemoveStatus, selectPostById } from './store';
+import { routes } from '../../common/routes';
+import { removePost, resetRemoveStatus, selectPostById } from '../../store';
 import { PostAuthor } from './PostAuthor';
 import { ReactionButtons } from './ReactionButtons';
 

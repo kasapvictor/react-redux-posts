@@ -1,5 +1,5 @@
 export { store } from './store';
-export { fetchUsers, selectAllUsers, selectUserById } from './usersSlice';
+export { fetchUsers, selectAllUsers, selectUserById } from '../features/users/usersSlice';
 export {
   fetchPosts,
   addNewPost,
@@ -12,4 +12,4 @@ export {
   selectPostsByUser,
   selectPostsIds,
   removePost,
-} from './postsSlice';
+} from '../features/posts/postsSlice';
