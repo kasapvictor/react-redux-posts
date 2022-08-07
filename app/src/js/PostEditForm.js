@@ -14,6 +14,7 @@ export const PostEditForm = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState(postById.title);
   const [body, setBody] = useState(postById.body);
+  const [tags, setTags] = useState(postById.tags.map((tag) => tag).join(', '));
 
   const postStatusUpdate = useSelector((state) => state.posts.statusUpdate);
   const postError = useSelector((state) => state.posts.error);
@@ -28,6 +29,10 @@ export const PostEditForm = () => {
     setBody(e.target.value);
   };
 
+  const handleTags = (e) => {
+    setTags(e.target.value);
+  };
+
   const isValid = [title, body].every(Boolean);
 
   const handleEditPost = async () => {
@@ -35,7 +40,12 @@ export const PostEditForm = () => {
       return false;
     }
 
-    dispatch(updatePost({ id: postId, title, body, reactions: postById.reactions, tags: postById.tags }));
+    const formattedTags = tags
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter((tag) => tag !== '');
+
+    dispatch(updatePost({ id: postId, title, body, reactions: postById.reactions, tags: formattedTags }));
 
     return true;
   };
@@ -83,6 +93,22 @@ export const PostEditForm = () => {
                   <label htmlFor="content" className="form__label">
                     <span className="form__label-name">Content:</span>
                     <textarea onChange={handleBody} className="form__field" value={body} name="content" id="content" />
+                  </label>
+                </div>
+
+                <div className="form__row">
+                  <label htmlFor="tags" className="form__label">
+                    <span className="form__label-name">
+                      Tags: <span className="small">(add , after each tag)</span>
+                    </span>
+                    <input
+                      className="form__field"
+                      id="tags"
+                      type="text"
+                      name="tags"
+                      value={tags}
+                      onChange={handleTags}
+                    />
                   </label>
                 </div>
               </div>

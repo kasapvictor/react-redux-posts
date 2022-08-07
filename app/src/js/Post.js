@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
@@ -13,7 +13,6 @@ export const Post = () => {
   const { postId } = params;
   const postById = useSelector((state) => selectPostById(state, +postId));
   const postStatusRemove = useSelector((state) => state.posts.statusRemove);
-  const [postRemoved, setPostRemoved] = useState(false);
 
   const handleRemovePost = (id) => () => {
     dispatch(removePost({ id }));
@@ -21,12 +20,9 @@ export const Post = () => {
 
   useEffect(() => {
     if (postStatusRemove === 'succeeded') {
-      setPostRemoved(true);
       dispatch(resetRemoveStatus());
     }
   }, [postStatusRemove]);
-
-  const notFoundPostText = postRemoved ? 'Post was removed!' : 'Post not found!';
 
   return (
     <section className="post">
@@ -69,7 +65,7 @@ export const Post = () => {
           </article>
         ) : (
           <>
-            <h2 className="h2"> {notFoundPostText} </h2>
+            <h2 className="h2"> Post was removed or not existing! </h2>
             <Link to={routes.home} className="link">
               [ Back to posts ]
             </Link>
