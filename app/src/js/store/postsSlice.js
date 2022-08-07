@@ -5,12 +5,17 @@ const URL_FETCH_POSTS = 'https://dummyjson.com/posts';
 const URL_ADD_NEW_POST = 'https://dummyjson.com/posts/add';
 const URL_UPDATE_POST = 'https://dummyjson.com/posts';
 
+const IDLE_STATUS = 'idle';
+const LOADING_STATUS = 'loading';
+const SUCCESS_STATUS = 'succeeded';
+const FAILED_STATUS = 'failed';
+
 const postsAdapter = createEntityAdapter();
 
 // getInitialState() ->  {ids: [], entities: {}}
 const initialState = postsAdapter.getInitialState({
-  statusFetch: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
-  statusUpdate: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  statusFetch: IDLE_STATUS, // 'idle' | 'loading' | 'succeeded' | 'failed'
+  statusUpdate: IDLE_STATUS, // 'idle' | 'loading' | 'succeeded' | 'failed'
   postUpdatingId: null,
   error: null,
 });
@@ -29,12 +34,7 @@ export const addNewPost = createAsyncThunk('posts/addPost', async (data) => {
 
 export const updatePost = createAsyncThunk('posts/updatePost', async (data) => {
   const { id, ...restData } = data;
-
-  console.log('UPDATE restData', restData);
-
   const response = await axios.put(`${URL_UPDATE_POST}/${id}`, restData);
-
-  console.log('UPDATE response', response);
 
   return response.data;
 });
@@ -44,7 +44,6 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     postUpdatingId: (state, action) => {
-      console.log(action);
       state.postUpdatingId = action.payload;
     },
     postRemove: (state, action) => {
@@ -58,23 +57,23 @@ const postsSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state) => {
-        state.statusFetch = 'loading';
+        state.statusFetch = LOADING_STATUS;
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.statusFetch = 'succeeded';
+        state.statusFetch = SUCCESS_STATUS;
         // state.posts = [...state.posts, ...action.payload.posts];
         postsAdapter.upsertMany(state, action.payload.posts);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.statusFetch = 'failed';
+        state.statusFetch = FAILED_STATUS;
         state.error = action.error.message;
       })
       .addCase(addNewPost.fulfilled, postsAdapter.addOne)
       .addCase(updatePost.pending, (state) => {
-        state.statusUpdate = 'loading';
+        state.statusUpdate = LOADING_STATUS;
       })
       .addCase(updatePost.fulfilled, (state, action) => {
-        state.statusUpdate = 'succeeded';
+        state.statusUpdate = SUCCESS_STATUS;
         const { id, title, body, userId, tags, reactions } = action.payload;
         const foundPost = state.entities[id];
 
@@ -87,15 +86,11 @@ const postsSlice = createSlice({
         }
       })
       .addCase(updatePost.rejected, (state, action) => {
-        state.statusUpdate = 'failed';
+        state.statusUpdate = FAILED_STATUS;
         state.error = action.error.message;
       });
   },
 });
-
-// export const selectAllPosts = (state) => state.posts.posts;
-// export const selectPostById = (state, postId) => state.posts.posts.find((post) => post.id === postId);
-// export const { postUpdatingId, postRemove, resetUpdateStatus } = postsSlice.actions;
 
 export const {
   selectAll: selectAllPosts,
