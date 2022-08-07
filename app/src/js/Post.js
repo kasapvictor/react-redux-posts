@@ -21,10 +21,12 @@ export const Post = () => {
 
   useEffect(() => {
     if (postStatusRemove === 'succeeded') {
-      dispatch(resetRemoveStatus());
       setPostRemoved(true);
+      dispatch(resetRemoveStatus());
     }
   }, [postStatusRemove]);
+
+  const notFoundPostText = postRemoved ? 'Post was removed!' : 'Post not found!';
 
   return (
     <section className="post">
@@ -60,7 +62,7 @@ export const Post = () => {
           </article>
         ) : (
           <>
-            {postRemoved ? <h2 className="h2"> Post was removed! </h2> : <h2 className="h2"> Post not found! </h2>}
+            <h2 className="h2"> {notFoundPostText} </h2>
             <Link to={routes.home} className="link">
               [ Back to posts ]
             </Link>
