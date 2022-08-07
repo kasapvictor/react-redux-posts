@@ -10,4 +10,5 @@ export {
   selectPostById,
   resetUpdateStatus,
   selectPostsByUser,
+  selectPostsIds,
 } from './postsSlice';

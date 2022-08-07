@@ -6,11 +6,12 @@ import { routes } from './routes';
 import { PostAuthor } from './PostAuthor';
 import { Spinner } from './Spinner';
 import { ReactionButtons } from './ReactionButtons';
+import { fetchPosts, selectPostById, selectPostsIds } from './store';
 
-import { fetchPosts, selectAllPosts } from './store';
+const PostExcerpt = ({ postId }) => {
+  const post = useSelector((state) => selectPostById(state, postId));
 
-const RenderPostsPreviews = ({ posts }) =>
-  posts.map((post) => (
+  return (
     <article key={post.id} className="postPreview">
       <div className="postPreview__header">
         <h3 className="h3 postPreview__title">{post.title}</h3>
@@ -30,12 +31,16 @@ const RenderPostsPreviews = ({ posts }) =>
         <ReactionButtons post={post} />
       </div>
     </article>
-  ));
+  );
+};
+
+const RenderPostsPreviews = () => {
+  const postsIds = useSelector(selectPostsIds);
+  return postsIds.map((postId) => <PostExcerpt key={postId} postId={postId} />);
+};
 
 export const Posts = () => {
   const dispatch = useDispatch();
-
-  const posts = useSelector(selectAllPosts);
   const postStatus = useSelector((state) => state.posts.statusFetch);
   const postError = useSelector((state) => state.posts.error);
 
@@ -51,7 +56,7 @@ export const Posts = () => {
 
       {postStatus === 'loading' && <Spinner text="Loading..." />}
 
-      {postStatus === 'succeeded' && <RenderPostsPreviews posts={posts} />}
+      {postStatus === 'succeeded' && <RenderPostsPreviews />}
     </section>
   );
 };
