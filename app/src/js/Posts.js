@@ -20,6 +20,13 @@ const PostExcerpt = ({ postId }) => {
           <span className="small postPreview__meta-item"> Post ID: {post.id}</span>
           <span className="small postPreview__meta-item"> Author: {<PostAuthor id={post.userId} />} </span>
         </div>
+        <div className="postTags tags">
+          {post.tags.map((tag, idx) => (
+            <span key={idx} className="postTag tags_item small">
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="postPreview__body">

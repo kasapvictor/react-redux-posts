@@ -35,3 +35,17 @@
   margin-left: auto;
 }
 
+.postTags {
+  display: flex;
+  gap: 10px;
+  @include py($size: 2);
+}
+
+.postTag {
+  display: inline-block;
+  @include py($size: 1);
+  @include px($size: 3);
+  border-radius: $borderRadiusDefault;
+  background-color: lighten($color1, 80);
+  color: lighten($color1, 40)
+}

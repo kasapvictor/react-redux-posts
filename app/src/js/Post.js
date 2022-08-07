@@ -39,6 +39,13 @@ export const Post = () => {
                 <span className="small postPreview__meta-item"> Post ID: {postById.id}</span>
                 <span className="small postPreview__meta-item"> Author: {<PostAuthor id={postById.userId} />} </span>
               </div>
+              <div className="postTags tags">
+                {postById.tags.map((tag, idx) => (
+                  <span key={idx} className="postTag tags_item small">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
             <div className="postBody">
               <div className="postContent">{postById.body}</div>
