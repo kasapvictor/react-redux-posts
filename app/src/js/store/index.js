@@ -4,11 +4,12 @@ export {
   fetchPosts,
   addNewPost,
   updatePost,
-  postRemove,
   postUpdatingId,
   selectAllPosts,
   selectPostById,
   resetUpdateStatus,
+  resetRemoveStatus,
   selectPostsByUser,
   selectPostsIds,
+  removePost,
 } from './postsSlice';

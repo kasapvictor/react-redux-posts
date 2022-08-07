@@ -1,16 +1,30 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { routes } from './routes';
-import { selectPostById } from './store';
+import { removePost, resetRemoveStatus, selectPostById } from './store';
 import { PostAuthor } from './PostAuthor';
 import { ReactionButtons } from './ReactionButtons';
 
 export const Post = () => {
+  const dispatch = useDispatch();
   const params = useParams();
   const { postId } = params;
   const postById = useSelector((state) => selectPostById(state, +postId));
+  const postStatusRemove = useSelector((state) => state.posts.statusRemove);
+  const [postRemoved, setPostRemoved] = useState(false);
+
+  const handleRemovePost = (id) => () => {
+    dispatch(removePost({ id }));
+  };
+
+  useEffect(() => {
+    if (postStatusRemove === 'succeeded') {
+      dispatch(resetRemoveStatus());
+      setPostRemoved(true);
+    }
+  }, [postStatusRemove]);
 
   return (
     <section className="post">
@@ -26,20 +40,31 @@ export const Post = () => {
             </div>
             <div className="postBody">
               <div className="postContent">{postById.body}</div>
-
-              {/* <ReactionButtons post={postById} /> */}
             </div>
             <div className="postFooter">
               <Link to={routes.postEdit(postById.id)} className="button">
                 Edit post
               </Link>
+              <button className="button button--delete" onClick={handleRemovePost(postById.id)}>
+                {' '}
+                Delete Post{' '}
+              </button>
               <Link to={routes.home} className="link">
                 [ Back to posts ]
               </Link>
+
+              <div className="postReactions">
+                <ReactionButtons post={postById} />
+              </div>
             </div>
           </article>
         ) : (
-          <h2 className="h2"> Post not found! </h2>
+          <>
+            {postRemoved ? <h2 className="h2"> Post was removed! </h2> : <h2 className="h2"> Post not found! </h2>}
+            <Link to={routes.home} className="link">
+              [ Back to posts ]
+            </Link>
+          </>
         )}
       </div>
     </section>

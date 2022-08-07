@@ -4,6 +4,7 @@ $color2: #ffffff;
 $color3: #0061df;
 $color4: #4ed192;
 $color5: #df0000;
+$color6: #FF6347FF;
 
 /* PADDING & MARGIN FACTOR */
 $factor: .4rem;
@@ -46,6 +47,9 @@ $buttonBackgroundColorDisabled: lighten($color1, 50);
 $buttonColorText: $color2;
 $buttonColorTextHover: $color3;
 $buttonColorTextActive: $color2;
+$buttonColorDelete: $color6;
+$buttonBackgroundColorDelete: $color6;
+$buttonBorderColorDelete: $color6;
 
 $postPreviewTitle: $fontSizeH5;
 $postPreviewBorderColor: $borderColorDefault;

@@ -60,3 +60,13 @@
 .buttonReaction__count {
 
 }
+
+.button--delete {
+  background-color: $buttonBackgroundColorDelete;
+  border-color: $buttonBorderColorDelete;
+
+  &:hover {
+    background-color: $buttonBackgroundColorHover;
+    color: $buttonColorDelete;
+  }
+}
