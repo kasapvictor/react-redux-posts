@@ -8,6 +8,7 @@ import { Spinner } from './Spinner';
 import { ReactionButtons } from './ReactionButtons';
 import { fetchPosts, selectPostById, selectPostsIds } from './store';
 
+// https://redux.js.org/style-guide/#connect-more-components-to-read-data-from-the-store
 const PostExcerpt = ({ postId }) => {
   const post = useSelector((state) => selectPostById(state, postId));
 
@@ -34,7 +35,7 @@ const PostExcerpt = ({ postId }) => {
   );
 };
 
-const RenderPostsPreviews = () => {
+const RenderPostsExcerpt = () => {
   const postsIds = useSelector(selectPostsIds);
   return postsIds.map((postId) => <PostExcerpt key={postId} postId={postId} />);
 };
@@ -56,7 +57,7 @@ export const Posts = () => {
 
       {postStatus === 'loading' && <Spinner text="Loading..." />}
 
-      {postStatus === 'succeeded' && <RenderPostsPreviews />}
+      {postStatus === 'succeeded' && <RenderPostsExcerpt />}
     </section>
   );
 };
